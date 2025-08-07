@@ -3,631 +3,430 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infographic - Báo Cáo Toàn Diện Khơ Thị (T4-T7/2025)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Báo Cáo Phân Tích Cạnh Tranh - Ngành Cấy Tóc</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
         }
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px
- 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .card:hover {
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .chart-container:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
         }
-        .table-header {
-            background-color: #f1f5f9;
+        
+        .chart-container h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3rem;
         }
-        .highlight-green { color: #16a34a; }
-        .highlight-red { color: #dc2626; }
-        .highlight-yellow { color: #f59e0b; }
-        .kpi-card {
-            border-left: 5px solid #4f46e5;
+        
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
         }
-        .arrow-up { color: #16a34a; }
-        .arrow-down { color: #dc2626; }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .summary-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .summary-card h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .summary-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .summary-card li {
+            background: #f8f9ff;
+            margin: 8px 0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .competitor-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+        
+        .tag-newhair { background: #e3f2fd; color: #1976d2; }
+        .tag-donga { background: #f3e5f5; color: #7b1fa2; }
+        .tag-international { background: #e8f5e8; color: #388e3c; }
+        .tag-kangnam { background: #fff3e0; color: #f57c00; }
+        .tag-bvdl { background: #ffebee; color: #d32f2f; }
+        .tag-kangnam2 { background: #e0f2f1; color: #00796b; }
+        
+        .insights {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .insights h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .insight-item {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .insight-item strong {
+            color: #667eea;
+        }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 tracking-tight">BÁO CÁO TOÀN DIỆN</h1>
-            <p class="text-xl text-gray-600 mt-2">Hiệu Quả Kinh Doanh & Marketing Khơ Thị</p>
-            <p class="text-lg text-indigo-600 font-semibold mt-1">Giai đoạn: Tháng 4 - Tháng 7, 2025</p>
-        </header>
-
-        <!-- Phần 1: Bức Tranh Tổng Quan -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-indigo-500 pl-4 mb-6">1. Bức Tranh Tổng Quan - Tăng Trưởng Doanh Thu</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <div class="card p-6 kpi-card col-span-1 flex flex-col justify-between">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-gray-500 font-semibold">Doanh Thu Tháng 7/2025</h3>
-                        <svg class="w-8 h-8 text-indigo-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                    </div>
-                    <p class="text-4xl font-bold text-indigo-600 mt-2">9,41 Tỷ</p>
-                </div>
-                <div class="card p-6 kpi-card col-span-1 flex flex-col justify-between">
-                     <div class="flex items-center justify-between">
-                        <h3 class="text-gray-500 font-semibold">Tăng Trưởng so với T6</h3>
-                        <svg class="w-8 h-8 text-green-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-3.75-2.25M21 18v-6c0-1.104-.896-2-2-2h-6" /></svg>
-                    </div>
-                    <p class="text-4xl font-bold text-green-600 mt-2">▲ +22.16%</p>
-                </div>
-                <div class="card p-6 kpi-card col-span-1 flex flex-col justify-between">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-gray-500 font-semibold">ROAS Tổng Thể T7</h3>
-                        <svg class="w-8 h-8 text-green-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 11.249 12.768 11 12 11c-.768 0-1.536.249-2.121.737L9 12.218z" /></svg>
-                    </div>
-                    <p class="text-4xl font-bold text-green-600 mt-2">▲ 6.43</p>
-                </div>
-            </div>
-
-            <div class="card p-6 mb-8">
-                <h3 class="text-xl font-bold text-gray-700 mb-4">1.1. Tăng Trưởng Doanh Thu Theo Tháng & Chi Nhánh</h3>
-                <canvas id="revenueChart"></canvas>
-            </div>
-            
-            <div class="card p-6">
-                <h3 class="text-xl font-bold text-gray-700 mb-4">Bảng 1: Tổng Doanh Thu Theo Chi Nhánh (Đơn vị: VNĐ)</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="table-header">
-                                <th class="p-3 font-semibold">Tháng</th>
-                                <th class="p-3 font-semibold">CN 222 THĐ</th>
-                                <th class="p-3 font-semibold">CN Thảo Điền (Q2)</th>
-                                <th class="p-3 font-semibold">Tổng Cộng</th>
-                                <th class="p-3 font-semibold">Tăng/Giảm</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b">
-                                <td class="p-3 font-medium">Tháng 4/2025</td>
-                                <td class="p-3">4,388,216,000</td>
-                                <td class="p-3">2,563,361,000</td>
-                                <td class="p-3 font-bold">6,951,577,000</td>
-                                <td class="p-3">-</td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="p-3 font-medium">Tháng 5/2025</td>
-                                <td class="p-3">4,652,309,271</td>
-                                <td class="p-3">1,882,800,000</td>
-                                <td class="p-3 font-bold">6,535,109,271</td>
-                                <td class="p-3 highlight-red font-semibold">▼ -5.99%</td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="p-3 font-medium">Tháng 6/2025</td>
-                                <td class="p-3">5,843,583,110</td>
-                                <td class="p-3">1,865,652,414</td>
-                                <td class="p-3 font-bold">7,709,235,524</td>
-                                <td class="p-3 highlight-green font-semibold">▲ +17.97%</td>
-                            </tr>
-                            <tr>
-                                <td class="p-3 font-medium bg-indigo-50">Tháng 7/2025</td>
-                                <td class="p-3 bg-indigo-50">6,402,043,080</td>
-                                <td class="p-3 bg-indigo-50">3,015,850,455</td>
-                                <td class="p-3 font-bold bg-indigo-50">9,417,893,535</td>
-                                <td class="p-3 highlight-green font-semibold bg-indigo-50">▲ +22.16%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Phần 2: Phân Tích Hiệu Quả Marketing -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-indigo-500 pl-4 mb-6">2. Phân Tích Hiệu Quả Marketing & Nguồn Doanh Thu</h2>
-            
-             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="card p-6">
-                    <h3 class="text-xl font-bold text-gray-700 mb-4">2.1. Phân Bổ Ngân Sách Marketing (Tháng 7/2025)</h3>
-                    <canvas id="budgetChart"></canvas>
-                </div>
-                <div class="card p-6">
-                    <h3 class="text-xl font-bold text-gray-700 mb-4">2.2. Phân Tích Cơ Cấu Nguồn Doanh Thu (Tháng 7/2025)</h3>
-                    <canvas id="revenueSourceChart"></canvas>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Phân Tích Cạnh Tranh Ngành Cấy Tóc</h1>
+            <p>Báo cáo so sánh chiến lược marketing và định vị thương hiệu</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="chart-container">
+                <h3>🎯 Phân Khúc Giá Thị Trường</h3>
+                <div class="chart-wrapper">
+                    <canvas id="priceSegmentChart"></canvas>
                 </div>
             </div>
             
-            <div class="card p-6 mt-8">
-                <h3 class="text-xl font-bold text-gray-700 mb-4">Bảng 2: Phân Tích Hiệu Quả Các Kênh Marketing Phụ Trợ</h3>
-                 <p class="text-gray-600 mb-4">Phân tích vai trò và hiệu quả (dựa trên dữ liệu có sẵn) của các kênh ngoài Facebook.</p>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead>
-                            <tr class="table-header">
-                                <th class="p-3 font-semibold">Kênh</th>
-                                <th class="p-3 font-semibold">Số Lượng Lead (T7)</th>
-                                <th class="p-3 font-semibold">Số Lượng Khách Hàng</th>
-                                <th class="p-3 font-semibold">Doanh Thu (Ước tính T7)</th>
-                                <th class="p-3 font-semibold">Ghi Chú & Phân Tích</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b">
-                                <td class="p-3 font-medium">Tiktok</td>
-                                <td class="p-3 font-bold text-center">~ 101</td>
-                                <td class="p-3 font-bold text-center">~ 17</td>
-                                <td class="p-3 font-bold text-center">~ 688 Tr</td>
-                                <td class="p-3">Kênh tạo lead tiềm năng nhưng chất lượng lead từ form được ghi nhận là thấp.</td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="p-3 font-medium">Google</td>
-                                <td class="p-3 font-bold text-center">~ 26</td>
-                                <td class="p-3 font-bold text-center">~ 2</td>
-                                <td class="p-3 font-bold text-center">~ 81 Tr</td>
-                                <td class="p-3">Kênh tạo lead ở tầng nhận biết, cần theo dõi thêm.</td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="p-3 font-medium">Zalo (ZOA)</td>
-                                <td class="p-3 font-bold text-center">~ 9</td>
-                                <td class="p-3 font-bold text-center">~ 2</td>
-                                <td class="p-3 font-bold text-center">~ 81 Tr</td>
-                                <td class="p-3">Số lượng lead còn khiêm tốn.</td>
-                            </tr>
-                            <tr class="border-b bg-blue-50">
-                                <td class="p-3 font-medium">Bạn bè giới thiệu (BGT/CTV)</td>
-                                <td class="p-3 text-gray-500 italic text-center">Không áp dụng</td>
-                                <td class="p-3 font-bold text-center">15-25 khách/tháng</td>
-                                <td class="p-3 text-gray-500 italic text-center">Không có dữ liệu</td>
-                                <td class="p-3">Kênh Organic mang lại khách hàng chất lượng cao, độ tin cậy lớn.</td>
-                            </tr>
-                            <tr class="border-b bg-blue-50">
-                                <td class="p-3 font-medium">Hotline/SĐT</td>
-                                <td class="p-3 text-gray-500 italic text-center">Không áp dụng</td>
-                                <td class="p-3 font-bold text-center">3-8 khách/tháng</td>
-                                <td class="p-3 text-gray-500 italic text-center">Không có dữ liệu</td>
-                                <td class="p-3">Kênh thể hiện nhu cầu trực tiếp, tỷ lệ chuyển đổi cao.</td>
-                            </tr>
-                             <tr class="bg-blue-50">
-                                <td class="p-3 font-medium">Vãng lai / Website</td>
-                                <td class="p-3 text-gray-500 italic text-center">Không áp dụng</td>
-                                <td class="p-3 font-bold text-center">5-10 khách/tháng</td>
-                                <td class="p-3 text-gray-500 italic text-center">Không có dữ liệu</td>
-                                <td class="p-3">Thể hiện sức hút tự nhiên của thương hiệu và vị trí.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                     <p class="text-xs text-gray-500 mt-2 italic">*Ghi chú: Doanh thu ước tính dựa trên số lượng khách hàng từ kênh và doanh thu trung bình/khách của TVOL trong tháng 7.</p>
+            <div class="chart-container">
+                <h3>⚡ Mức Độ Chuyên Nghiệp</h3>
+                <div class="chart-wrapper">
+                    <canvas id="professionalChart"></canvas>
                 </div>
             </div>
-        </section>
-
-        <!-- Phần 3: Phân Tích Hiệu Quả Theo Dịch Vụ -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-indigo-500 pl-4 mb-6">3. Phân Tích Hiệu Quả Marketing Theo Dịch Vụ</h2>
-            <div class="card p-6 mb-8">
-                <h3 class="text-xl font-bold text-gray-700 mb-4">Bảng 3.1: Phân Tích Hiệu Quả Marketing - Nhóm Dịch Vụ Giá Trị Cao</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead>
-                            <tr class="table-header">
-                                <th class="p-3 font-semibold">Dòng Dịch Vụ</th>
-                                <th class="p-3 font-semibold">Chỉ số</th>
-                                <th class="p-3 font-semibold text-center">Tháng 5/2025</th>
-                                <th class="p-3 font-semibold text-center">Tháng 6/2025</th>
-                                <th class="p-3 font-semibold text-center">Tháng 7/2025</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3 font-bold" rowspan="3">Cấy Tóc (New Hair)</td>
-                                <td class="p-3">Chi phí MKT</td>
-                                <td class="p-3 text-center">445,000,000</td>
-                                <td class="p-3 text-center">470,000,000</td>
-                                <td class="p-3 text-center">424,170,000</td>
-                            </tr>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3">Doanh thu</td>
-                                <td class="p-3 text-center">2,920,718,363</td>
-                                <td class="p-3 text-center">3,183,138,000</td>
-                                <td class="p-3 text-center">3,551,995,684</td>
-                            </tr>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3 font-semibold">ROAS (Lần)</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">6.56</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">6.77 <span class="arrow-up">▲</span></td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">8.37 <span class="arrow-up">▲</span></td>
-                            </tr>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3 font-bold" rowspan="3">PTTM</td>
-                                <td class="p-3">Chi phí MKT</td>
-                                <td class="p-3 text-center">30,000,000</td>
-                                <td class="p-3 text-center">30,000,000</td>
-                                <td class="p-3 text-center">60,000,000</td>
-                            </tr>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3">Doanh thu</td>
-                                <td class="p-3 text-center">967,577,096</td>
-                                <td class="p-3 text-center">1,280,507,286</td>
-                                <td class="p-3 text-center">2,222,758,192</td>
-                            </tr>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3 font-semibold">ROAS (Lần)</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">32.25</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">42.68 <span class="arrow-up">▲</span></td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">37.05 <span class="arrow-down">▼</span></td>
-                            </tr>
-                            <tr class="border-b bg-blue-50">
-                                <td class="p-3 font-bold" rowspan="3">Nâng cơ CNC</td>
-                                <td class="p-3">Chi phí MKT</td>
-                                <td class="p-3 text-center">80,000,000</td>
-                                <td class="p-3 text-center">80,000,000</td>
-                                <td class="p-3 text-center">80,000,000</td>
-                            </tr>
-                            <tr class="border-b bg-blue-50">
-                                <td class="p-3">Doanh thu</td>
-                                <td class="p-3 text-center">499,874,975</td>
-                                <td class="p-3 text-center">653,653,534</td>
-                                <td class="p-3 text-center">1,228,433,697</td>
-                            </tr>
-                            <tr class="border-b bg-blue-50">
-                                <td class="p-3 font-semibold">ROAS (Lần)</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">6.25</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">8.17 <span class="arrow-up">▲</span></td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">15.36 <span class="arrow-up">▲</span></td>
-                            </tr>
-                             <tr class="border-b bg-red-50">
-                                <td class="p-3 font-bold" rowspan="3">Căng chỉ</td>
-                                <td class="p-3">Chi phí MKT</td>
-                                <td class="p-3 text-center">120,000,000</td>
-                                <td class="p-3 text-center">120,000,000</td>
-                                <td class="p-3 text-center">100,000,000</td>
-                            </tr>
-                            <tr class="border-b bg-red-50">
-                                <td class="p-3">Doanh thu</td>
-                                <td class="p-3 text-center">477,752,045</td>
-                                <td class="p-3 text-center">148,800,000</td>
-                                <td class="p-3 text-center">171,222,634</td>
-                            </tr>
-                            <tr class="border-b bg-red-50">
-                                <td class="p-3 font-semibold">ROAS (Lần)</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-yellow">3.98</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-red">1.24 <span class="arrow-down">▼</span></td>
-                                <td class="p-3 text-center font-bold text-lg highlight-red">1.71 <span class="arrow-up">▲</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+            
+            <div class="chart-container">
+                <h3>🏆 Tỷ Lệ Thành Công Cam Kết</h3>
+                <div class="chart-wrapper">
+                    <canvas id="successRateChart"></canvas>
                 </div>
             </div>
-
-            <div class="card p-6">
-                <h3 class="text-xl font-bold text-gray-700 mb-4">Bảng 3.2: Phân Tích Hiệu Quả Marketing - Nhóm Dịch Vụ Phễu & Bán Chéo</h3>
-                <div class="overflow-x-auto">
-                     <table class="w-full text-left text-sm">
-                        <thead>
-                            <tr class="table-header">
-                                <th class="p-3 font-semibold">Dòng Dịch Vụ</th>
-                                <th class="p-3 font-semibold">Chỉ số</th>
-                                <th class="p-3 font-semibold text-center">Tháng 5/2025</th>
-                                <th class="p-3 font-semibold text-center">Tháng 6/2025</th>
-                                <th class="p-3 font-semibold text-center">Tháng 7/2025</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3 font-bold" rowspan="3">Tiêm Thẩm Mỹ</td>
-                                <td class="p-3">Chi phí MKT</td>
-                                <td class="p-3 text-center">10,000,000</td>
-                                <td class="p-3 text-center">15,000,000</td>
-                                <td class="p-3 text-center">15,000,000</td>
-                            </tr>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3">Doanh thu</td>
-                                <td class="p-3 text-center">431,088,027</td>
-                                <td class="p-3 text-center">600,438,848</td>
-                                <td class="p-3 text-center">701,399,205</td>
-                            </tr>
-                            <tr class="border-b bg-green-50">
-                                <td class="p-3 font-semibold">ROAS (Lần)</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">43.11</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">40.03 <span class="arrow-down">▼</span></td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">46.76 <span class="arrow-up">▲</span></td>
-                            </tr>
-                            <tr class="border-b bg-blue-50">
-                                <td class="p-3 font-bold" rowspan="3">Phun xăm</td>
-                                <td class="p-3">Chi phí MKT</td>
-                                <td class="p-3 text-center">10,000,000</td>
-                                <td class="p-3 text-center">20,000,000</td>
-                                <td class="p-3 text-center">20,000,000</td>
-                            </tr>
-                            <tr class="border-b bg-blue-50">
-                                <td class="p-3">Doanh thu</td>
-                                <td class="p-3 text-center">53,238,659</td>
-                                <td class="p-3 text-center">86,420,000</td>
-                                <td class="p-3 text-center">105,880,000</td>
-                            </tr>
-                            <tr class="border-b bg-blue-50">
-                                <td class="p-3 font-semibold">ROAS (Lần)</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">5.32</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">4.32 <span class="arrow-down">▼</span></td>
-                                <td class="p-3 text-center font-bold text-lg highlight-green">5.29 <span class="arrow-up">▲</span></td>
-                            </tr>
-                            <tr class="bg-red-50">
-                                <td class="p-3 font-bold" rowspan="3">Giảm cân</td>
-                                <td class="p-3">Chi phí MKT</td>
-                                <td class="p-3 text-center">25,000,000</td>
-                                <td class="p-3 text-center">25,000,000</td>
-                                <td class="p-3 text-center">25,000,000</td>
-                            </tr>
-                            <tr class="bg-red-50">
-                                <td class="p-3">Doanh thu</td>
-                                <td class="p-3 text-center">24,890,000</td>
-                                <td class="p-3 text-center">15,000,000</td>
-                                <td class="p-3 text-center">15,000,000</td>
-                            </tr>
-                            <tr class="bg-red-50">
-                                <td class="p-3 font-semibold">ROAS (Lần)</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-red">0.99</td>
-                                <td class="p-3 text-center font-bold text-lg highlight-red">0.60 <span class="arrow-down">▼</span></td>
-                                <td class="p-3 text-center font-bold text-lg highlight-red">0.60 →</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            
+            <div class="chart-container">
+                <h3>📈 Hoạt Động Marketing</h3>
+                <div class="chart-wrapper">
+                    <canvas id="marketingChart"></canvas>
                 </div>
             </div>
-        </section>
-
-        <!-- Phần 4: Phân Tích Chuyên Sâu Theo Nhóm Dịch Vụ -->
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-indigo-500 pl-4 mb-6">4. Phân Tích Chuyên Sâu Theo Nhóm Hiệu Quả Dịch Vụ</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Nhóm Siêu Lợi Nhuận -->
-                <div class="card p-6">
-                    <h3 class="text-xl font-bold text-gray-700 mb-4">Nhóm "Siêu Lợi Nhuận"</h3>
-                    <p class="text-gray-600 mb-4 text-sm">Chi phí MKT thấp - ROAS cực cao. Đây là các dịch vụ "tự bán" nhờ sức hút thương hiệu mạnh mẽ.</p>
-                    <div class="space-y-4">
-                        <div class="p-4 rounded-lg bg-green-50 border border-green-200">
-                            <p class="font-bold text-green-800">Phẫu Thuật Thẩm Mỹ</p>
-                            <p class="text-2xl font-bold text-green-600">ROAS ~37.33</p>
-                            <p class="text-xs text-gray-500">Chiếm ~5.0% chi phí MKT</p>
-                        </div>
-                        <div class="p-4 rounded-lg bg-green-50 border border-green-200">
-                            <p class="font-bold text-green-800">Tiêm Thẩm Mỹ</p>
-                            <p class="text-2xl font-bold text-green-600">ROAS ~43.30</p>
-                            <p class="text-xs text-gray-500">Chiếm ~1.7% chi phí MKT</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Nhóm Phễu Hiệu Quả -->
-                <div class="card p-6">
-                    <h3 class="text-xl font-bold text-gray-700 mb-4">Nhóm "Phễu Hiệu Quả"</h3>
-                    <p class="text-gray-600 mb-4 text-sm">Dịch vụ thu hút và bán chéo tốt, là nền tảng giữ chân khách hàng.</p>
-                     <div class="space-y-4">
-                        <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
-                            <p class="font-bold text-blue-800">Phun Xăm</p>
-                            <p class="text-2xl font-bold text-blue-600">ROAS ~4.98</p>
-                            <p class="text-xs text-gray-500">Doanh thu trung bình ~82tr/tháng</p>
-                        </div>
-                        <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
-                            <p class="font-bold text-blue-800">Làm Da & Chăm Sóc Cơ Thể</p>
-                            <p class="text-2xl font-bold text-blue-600">Tăng trưởng +20% <span class="arrow-up">▲</span></p>
-                            <p class="text-xs text-gray-500">Doanh thu trung bình ~245tr/tháng</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Nhóm Công Nghệ Cao -->
-                <div class="card p-6">
-                    <h3 class="text-xl font-bold text-gray-700 mb-4">Nhóm "Công Nghệ Cao"</h3>
-                    <p class="text-gray-600 mb-4 text-sm">Động lực tăng trưởng mới, đòi hỏi đầu tư lớn nhưng tiềm năng cao.</p>
-                     <div class="space-y-4">
-                        <div class="p-4 rounded-lg bg-green-50 border border-green-200">
-                            <p class="font-bold text-green-800">Nâng cơ CNC</p>
-                            <p class="text-2xl font-bold text-green-600">ROAS T7: 15.36 <span class="arrow-up">▲</span></p>
-                            <p class="text-xs text-gray-500">Doanh thu T7 tăng vọt lên 1,22 tỷ</p>
-                        </div>
-                        <div class="p-4 rounded-lg bg-red-50 border border-red-200">
-                            <p class="font-bold text-red-800">Căng chỉ</p>
-                            <p class="text-2xl font-bold text-red-600">ROAS T7: 1.71 <span class="arrow-down">▼</span></p>
-                            <p class="text-xs text-gray-500">Hiệu quả MKT rất thấp, cần giải pháp</p>
-                        </div>
-                    </div>
-                </div>
+        </div>
+        
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h4>🥇 Nhóm Dẫn Đầu Thị Trường</h4>
+                <ul>
+                    <li><span class="competitor-tag tag-newhair">Newhair</span> Tiên phong 10 năm, công nghệ độc quyền từ Anh</li>
+                    <li><span class="competitor-tag tag-donga">BVTM Đông Á</span> Hệ thống lớn toàn quốc, đa dịch vụ</li>
+                    <li><span class="competitor-tag tag-kangnam">BVTM Kangnam</span> Thương hiệu "chuẩn Hàn Quốc" mạnh</li>
+                </ul>
             </div>
-        </section>
-
-        <!-- Phần 5: Đề Xuất Chiến Lược -->
-        <section>
-            <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-indigo-500 pl-4 mb-6">5. Đề Xuất Chiến Lược & Hành Động</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="card p-6">
-                    <h3 class="font-bold text-lg text-gray-800 mb-2">1. Tái Cơ Cấu Ngân Sách Marketing Dựa Trên ROAS</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li><span class="font-semibold text-green-600">Tăng ngân sách</span> cho Nâng cơ CNC.</li>
-                        <li><span class="font-semibold text-blue-600">Duy trì & Tối ưu</span> cho Cấy Tóc, PTTM, Tiêm Thẩm Mỹ.</li>
-                        <li><span class="font-semibold text-red-600">Cắt giảm/Dừng</span> ngân sách cho Giảm cân và Căng chỉ.</li>
-                    </ul>
-                </div>
-                 <div class="card p-6">
-                    <h3 class="font-bold text-lg text-gray-800 mb-2">2. Khai Thác "Mỏ Vàng" Khách Hàng Cũ & Kênh Organic</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li>Xây dựng <span class="font-semibold">Chương trình Referral</span> chính thức, hấp dẫn.</li>
-                        <li><span class="font-semibold">Thưởng nóng</span> cho đội ngũ Tư vấn có tỷ lệ up-sell/cross-sell cao.</li>
-                    </ul>
-                </div>
-                 <div class="card p-6">
-                    <h3 class="font-bold text-lg text-gray-800 mb-2">3. Tối Ưu Phễu Chuyển Đổi</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li>Nhân rộng công thức <span class="font-semibold">"Chất lượng Lead"</span> thành công của Tháng 7.</li>
-                        <li>Tận dụng Dịch vụ Làm Da & Tiêm Thẩm Mỹ làm <span class="font-semibold">phễu bán chéo</span> hiệu quả.</li>
-                    </ul>
-                </div>
-                 <div class="card p-6">
-                    <h3 class="font-bold text-lg text-gray-800 mb-2">4. Giải Quyết Vấn Đề Tồn Đọng</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li>Tổ chức <span class="font-semibold">họp chuyên sâu</span> để tìm giải pháp cho Căng chỉ & Giảm cân.</li>
-                        <li>Giao <span class="font-semibold">KPI xử lý hàng tồn kho</span> cho các chi nhánh, kết hợp chương trình MKT hỗ trợ.</li>
-                    </ul>
-                </div>
+            
+            <div class="summary-card">
+                <h4>🎯 Nhóm Chuyên Sâu Ngách</h4>
+                <ul>
+                    <li><span class="competitor-tag tag-international">PK Quốc Tế</span> Chuyên khoa đầu tiên, cam kết văn bản</li>
+                    <li><span class="competitor-tag tag-kangnam2">TM Kangnam</span> Công nghệ tiên tiến, quy trình chuẩn</li>
+                </ul>
             </div>
-        </section>
+            
+            <div class="summary-card">
+                <h4>🏥 Phân Khúc Công Lập</h4>
+                <ul>
+                    <li><span class="competitor-tag tag-bvdl">BV Da liễu</span> Giá rất thấp, uy tín y khoa cao</li>
+                    <li>Thách thức: Quá tải, dịch vụ hạn chế</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="insights">
+            <h3>💡 Insights Chiến Lược</h3>
+            <div class="insight-item">
+                <strong>Phân hóa giá rõ ràng:</strong> Thị trường có 3 phân khúc chính - cao cấp (60-120k/nang), trung-cao (45-100 triệu/ca), và phổ thông (40-70 triệu/ca).
+            </div>
+            <div class="insight-item">
+                <strong>Công nghệ là điểm khác biệt:</strong> Các đối thủ mạnh đều có công nghệ độc quyền (HAT, Bio Hair, FUE) và cam kết tỷ lệ thành công >90%.
+            </div>
+            <div class="insight-item">
+                <strong>Marketing đa kênh:</strong> Inbound (SEO, Content) kết hợp Outbound (Quảng cáo, PR) với ngân sách lớn là xu hướng chung.
+            </div>
+            <div class="insight-item">
+                <strong>Thương hiệu vs Chuyên môn:</strong> Thương hiệu lớn có lợi thế nhận diện, nhưng chuyên sâu tạo niềm tin cao hơn.
+            </div>
+        </div>
     </div>
 
     <script>
-        // Data for the chart
-        const revenueData = {
-            labels: ['Tháng 4/2025', 'Tháng 5/2025', 'Tháng 6/2025', 'Tháng 7/2025'],
-            datasets: [
-                {
-                    label: 'CN 222 THĐ',
-                    data: [4388216000, 4652309271, 5843583110, 6402043080],
-                    borderColor: '#4f46e5',
-                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                },
-                {
-                    label: 'CN Thảo Điền (Q2)',
-                    data: [2563361000, 1882800000, 1865652414, 3015850455],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                }
-            ]
-        };
-
-        const budgetData = {
-            labels: ['Cấy Tóc', 'Căng chỉ', 'Nâng cơ CNC', 'PTTM', 'Giảm cân', 'Phun xăm', 'Tiêm Thẩm Mỹ'],
-            datasets: [{
-                label: 'Phân Bổ Ngân Sách MKT T7/2025',
-                data: [54.3, 12.8, 10.2, 7.7, 3.2, 2.6, 1.9],
-                backgroundColor: [
-                    '#4f46e5', '#ef4444', '#f59e0b', '#3b82f6', '#dc2626', '#8b5cf6', '#ec4899'
-                ],
-                hoverOffset: 4
-            }]
-        };
-
-        const revenueSourceData = {
-            labels: ['Kênh Online (TVOL)', 'Kênh Offline & Organic'],
-            datasets: [{
-                label: 'Cơ Cấu Nguồn Doanh Thu T7/2025',
-                data: [44, 56],
-                backgroundColor: ['#3b82f6', '#14b8a6'],
-                hoverOffset: 4
-            }]
-        };
-
-        const customerMixData = {
-            labels: ['Tháng 4', 'Tháng 5', 'Tháng 6'],
-            datasets: [
-                {
-                    label: 'Khách Hàng Mới',
-                    data: [106, 121, 112],
-                    backgroundColor: '#a78bfa',
-                },
-                {
-                    label: 'Khách Hàng Cũ',
-                    data: [217, 172, 225],
-                    backgroundColor: '#5b21b6',
-                }
-            ]
-        };
-
-        // Chart configuration
-        const configLine = {
-            type: 'line',
-            data: revenueData,
+        // Cấu hình chung cho biểu đồ
+        Chart.defaults.font.family = "'Segoe UI', sans-serif";
+        Chart.defaults.font.size = 12;
+        
+        // Biểu đồ phân khúc giá
+        const priceCtx = document.getElementById('priceSegmentChart').getContext('2d');
+        new Chart(priceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Cao cấp (>80tr)', 'Trung-cao (60-80tr)', 'Phổ thông (<60tr)'],
+                datasets: [{
+                    data: [40, 45, 15],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'top' },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) { label += ': '; }
-                                if (context.parsed.y !== null) {
-                                    label += new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(context.parsed.y);
-                                }
-                                return label;
-                            }
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Biểu đồ mức độ chuyên nghiệp
+        const professionalCtx = document.getElementById('professionalChart').getContext('2d');
+        new Chart(professionalCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Công nghệ', 'Đội ngũ', 'Cơ sở vật chất', 'Quy trình', 'Cam kết'],
+                datasets: [{
+                    label: 'Newhair',
+                    data: [95, 90, 85, 95, 98],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                    pointBackgroundColor: '#667eea'
+                }, {
+                    label: 'PK Quốc Tế',
+                    data: [90, 85, 80, 90, 95],
+                    borderColor: '#4caf50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                    pointBackgroundColor: '#4caf50'
+                }, {
+                    label: 'BVTM Kangnam',
+                    data: [85, 88, 90, 92, 90],
+                    borderColor: '#ff9800',
+                    backgroundColor: 'rgba(255, 152, 0, 0.2)',
+                    pointBackgroundColor: '#ff9800'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20
                         }
                     }
                 },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+        
+        // Biểu đồ tỷ lệ thành công
+        const successCtx = document.getElementById('successRateChart').getContext('2d');
+        new Chart(successCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Newhair', 'PK Quốc Tế', 'BVTM Kangnam', 'BVTM Đông Á', 'TM Kangnam', 'BV Da liễu'],
+                datasets: [{
+                    label: 'Tỷ lệ thành công (%)',
+                    data: [98, 95, 90, 95, 95, 85],
+                    backgroundColor: [
+                        '#667eea',
+                        '#4caf50',
+                        '#ff9800',
+                        '#9c27b0',
+                        '#00bcd4',
+                        '#f44336'
+                    ],
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
+                        beginAtZero: true,
+                        max: 100,
                         ticks: {
-                            callback: function(value) { return (value / 1e9).toFixed(1) + ' Tỷ'; }
-                        }
-                    }
-                }
-            },
-        };
-
-        const configDoughnut = {
-            type: 'doughnut',
-            data: budgetData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'bottom' },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.parsed.toFixed(1) + '%';
+                            callback: function(value) {
+                                return value + '%';
                             }
                         }
-                    }
-                }
-            }
-        };
-
-        const configPie = {
-            type: 'pie',
-            data: revenueSourceData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'bottom' },
-                     tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.parsed.toFixed(1) + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        };
-
-        const configBar = {
-            type: 'bar',
-            data: customerMixData,
-            options: {
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Tỷ Lệ Khách Hàng Mới vs. Cũ (Số Lượng)'
                     },
+                    x: {
+                        ticks: {
+                            maxRotation: 45
+                        }
+                    }
                 },
-                responsive: true,
-                scales: {
-                    x: { stacked: true },
-                    y: { stacked: true }
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 }
             }
-        };
-
-        // Render charts
-        window.onload = function() {
-            new Chart(document.getElementById('revenueChart'), configLine);
-            new Chart(document.getElementById('budgetChart'), configDoughnut);
-            new Chart(document.getElementById('revenueSourceChart'), configPie);
-            new Chart(document.getElementById('customerMixChart'), configBar);
-        };
+        });
+        
+        // Biểu đồ hoạt động marketing
+        const marketingCtx = document.getElementById('marketingChart').getContext('2d');
+        new Chart(marketingCtx, {
+            type: 'line',
+            data: {
+                labels: ['Website/SEO', 'Social Media', 'PR/Báo chí', 'Quảng cáo', 'Sự kiện', 'Người nổi tiếng'],
+                datasets: [{
+                    label: 'Newhair',
+                    data: [9, 8, 9, 8, 9, 10],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'BVTM Kangnam',
+                    data: [10, 10, 10, 10, 8, 9],
+                    borderColor: '#ff9800',
+                    backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'PK Quốc Tế',
+                    data: [9, 9, 7, 8, 6, 8],
+                    borderColor: '#4caf50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: {
+                            stepSize: 2
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                interaction: {
+                    intersect: false
+                }
+            }
+        });
     </script>
 </body>
 </html>
